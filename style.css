@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+.calculator-body {
+  display: grid;
+  grid-template: repeat(5, 1fr) / repeat(4, 1fr);
+  grid-template-areas:
+    "clear clear delete divide"
+    "seven eight nine multiply"
+    "four five six subtract"
+    "one two three add"
+    "zero zero period equal";
+
+  grid-gap: 10px 10px;
+  padding: 10px;
+
+  margin: 50px auto;
+  width: 400px;
+  height: 600px;
+  border: 1px solid black;
+}
+
+.button-container {
+
+}
+
+button {
+  width: 100%;
+  height: 100%;
+  font-size: 1.5em;
+  border-radius: 2px;
+  font-family: monospace;
+}
+
+.div-clear {
+  grid-area: clear;
+}
+
+.div-delete {
+  grid-area: delete;
+}
+
+.div-divide {
+  grid-area: divide;
+}
+
+.div-seven {
+  grid-area: seven;
+}
+
+.div-eight {
+  grid-area: eight;
+}
+
+.div-nine {
+  grid-area: nine;
+}
+
+.div-multiply {
+  grid-area: multiply;
+}
+
+.div-four {
+  grid-area: four;
+}
+
+.div-five {
+  grid-area: five;
+}
+
+.div-six {
+  grid-area: six;
+}
+
+.div-subtract {
+  grid-area: subtract;
+}
+
+.div-one {
+  grid-area: one;
+}
+
+.div-two {
+  grid-area: two;
+}
+
+.div-three {
+  grid-area: three;
+}
+
+.div-add {
+  grid-area: add;
+}
+
+.div-zero {
+  grid-area: zero;
+}
+
+.div-period {
+  grid-area: period;
+}
+
+.div-equal {
+  grid-area: equal;
+}
