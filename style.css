@@ -7,8 +7,9 @@
 
 .calculator-body {
   display: grid;
-  grid-template: repeat(5, 1fr) / repeat(4, 1fr);
+  grid-template: repeat(6, 1fr) / repeat(4, 1fr);
   grid-template-areas:
+    "display display display display"
     "clear clear delete divide"
     "seven eight nine multiply"
     "four five six subtract"
@@ -22,10 +23,7 @@
   width: 400px;
   height: 600px;
   border: 1px solid black;
-}
-
-.button-container {
-
+  border-radius: 4px;
 }
 
 button {
@@ -33,6 +31,26 @@ button {
   height: 100%;
   font-size: 1.5em;
   border-radius: 2px;
+  font-family: monospace;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.display {
+  grid-area: display;
+  background-color: grey;
+  border-radius: 2px;
+}
+
+.numeric {
+  text-align: right;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  font-size: 4.5em;
   font-family: monospace;
 }
 

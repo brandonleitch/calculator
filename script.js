@@ -1,126 +1,178 @@
-let calculator_body = document.querySelector(".calculator-body");
+const calculator_body = document.querySelector(".calculator-body");
+const display = document.querySelector('.display');
+const numeric = document.querySelector('.numeric');
 
-
-let buttons = {
-  clear : {
-    area : "clear",
-    string : "Clear",
-    f : null
-  },
-
-  del : {
-    area : "delete",
-    string : "Del",
-    f : null
-  },
-
-  add : {
-    area : "add",
-    string: "+",
-    f: null
-  },
-
-  subtract : {
-    area : "subtract",
-    string : "-",
-    f: null
-  },
-
-  multiply : {
-    area : "multiply",
-    string : "*",
-    f: null
-  },
-
-  divide : {
-    area : "divide",
-    string : "/",
-    f: null
-  },
-
-  zero : {
-    area: "zero",
-    string : '0',
-    f: null
-  },
-
-  one : {
-    area : "one",
-    string : "1",
-    f: null
-  },
-
-  two : {
-    area : "two",
-    string : "2",
-    f: null
-  },
-
-  three : {
-    area : "three",
-    string : '3',
-    f : null
-  },
-
-  four : {
-    area : 'four',
-    string : '4',
-    f: null
-  },
-
-  five : {
-    area : 'five',
-    string: '5',
-    f: null
-  },
-
-  six : {
-    area: "six",
-    string : '6',
-    f : null
-  },
-
-  seven : {
-    area : 'seven',
-    string : '7',
-    f : null
-  },
-
-  eight : {
-    area : 'eight',
-    string : '8',
-    f : null
-  },
-
-  nine : {
-    area : 'nine',
-    string : '9',
-    f : null
-  },
-
-  period : {
-    area : 'period',
-    string : '.',
-    f : null
-  },
-
-  equal : {
-    area: 'equal',
-    string: '=',
-    f: null
-  }
+let a = {
+  value : 0
 }
 
+let b = {
+  value : 0
+}
+
+let current_value = a;
+
+
+const buttons = gen_buttons();
+
 for (let b in buttons) {
-  let div = document.createElement("div");
+  const div = document.createElement("div");
   div.classList.add("button-container");
   div.classList.add(`div-${buttons[b].area}`);
 
-  let button = document.createElement('button');
+  const button = document.createElement('button');
   button.innerHTML = buttons[b].string;
   button.addEventListener('click', buttons[b].f);
 
   div.appendChild(button);
 
   calculator_body.appendChild(div);
+}
+
+function numeric_button(n) {
+  return function() {
+    current_value.value = parseFloat(`${current_value.value}${n}`);
+    update_display();
+  }
+}
+
+function operation_button(f) {
+  return function(){
+    current_value = b;
+    op = f;
+  }
+}
+
+
+function gen_buttons() {
+  return {
+    clear : {
+      area : "clear",
+      string : "Clear",
+      f : () => {
+        a.value = 0;
+        b.value = 0;
+        op = null;
+        clear_display();
+      }
+    },
+
+    del : {
+      area : "delete",
+      string : "Del",
+      f : () => {
+        numeric.innerHTML = numeric.innerHTML.substring(0, numeric.innerHTML.length - 1);
+      }
+    },
+
+    add : {
+      area : "add",
+      string: "+",
+      f: operation_button((x,y) => x + y)
+    },
+
+    subtract : {
+      area : "subtract",
+      string : "-",
+      f: operation_button((x,y) => x - y)
+    },
+
+    multiply : {
+      area : "multiply",
+      string : "*",
+      f: operation_button((x,y) => x * y)
+    },
+
+    divide : {
+      area : "divide",
+      string : "/",
+      f: operation_button((x,y) => x / y)
+    },
+
+    zero : {
+      area: "zero",
+      string : '0',
+      f: numeric_button(0)
+    },
+
+    one : {
+      area : "one",
+      string : "1",
+      f: numeric_button(1)
+    },
+
+    two : {
+      area : "two",
+      string : "2",
+      f: numeric_button(2)
+    },
+
+    three : {
+      area : "three",
+      string : '3',
+      f : numeric_button(3)
+    },
+
+    four : {
+      area : 'four',
+      string : '4',
+      f: numeric_button(4)
+    },
+
+    five : {
+      area : 'five',
+      string: '5',
+      f: numeric_button(5)
+    },
+
+    six : {
+      area: "six",
+      string : '6',
+      f : numeric_button(6)
+    },
+
+    seven : {
+      area : 'seven',
+      string : '7',
+      f : numeric_button(7)
+    },
+
+    eight : {
+      area : 'eight',
+      string : '8',
+      f : numeric_button(8)
+    },
+
+    nine : {
+      area : 'nine',
+      string : '9',
+      f : numeric_button(9)
+    },
+
+    period : {
+      area : 'period',
+      string : '.',
+      f : numeric_button(".")
+    },
+
+    equal : {
+      area: 'equal',
+      string: '=',
+      f: () => {
+        a.value = op(a.value, b.value);
+        b.value = 0;
+        current_value = a;
+        update_display();
+        op = null;
+      }
+    }
+  }
+}
+
+function update_display() {
+  numeric.innerHTML = current_value.value;
+}
+
+function clear_display() {
+  numeric.innerHTML = "";
 }
