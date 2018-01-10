@@ -12,6 +12,7 @@ let b = {
 
 let current_value = a;
 
+let period = false;
 
 const buttons = gen_buttons();
 
@@ -29,9 +30,12 @@ for (let b in buttons) {
   calculator_body.appendChild(div);
 }
 
+update_display();
+
 function numeric_button(n) {
   return function() {
-    current_value.value = parseFloat(`${current_value.value}${n}`);
+    current_value.value = parseFloat(`${current_value.value}${period ? "." : ""}${n}`);;
+    period = false;
     update_display();
   }
 }
@@ -61,7 +65,15 @@ function gen_buttons() {
       area : "delete",
       string : "Del",
       f : () => {
-        numeric.innerHTML = numeric.innerHTML.substring(0, numeric.innerHTML.length - 1);
+        if (period) {
+          period = false;
+        }
+        else{
+          let value_str = `${current_value.value}`
+          if (value_str.charAt(value_str.length - 2) == ".") period = true;
+          current_value.value = value_str.length == 1 ? 0 : parseFloat(value_str.substring(0, value_str.length - 1));
+        }
+        update_display();
       }
     },
 
@@ -152,7 +164,10 @@ function gen_buttons() {
     period : {
       area : 'period',
       string : '.',
-      f : numeric_button(".")
+      f : () => {
+        period = true;
+        update_display();
+      }
     },
 
     equal : {
@@ -170,7 +185,8 @@ function gen_buttons() {
 }
 
 function update_display() {
-  numeric.innerHTML = current_value.value;
+  let raw_str = `${current_value.value}${period ? "." : ""}`;
+  numeric.innerHTML =  raw_str.length <= 10 ? raw_str : raw_str.substring(0, 10);
 }
 
 function clear_display() {
