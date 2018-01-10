@@ -10,6 +10,8 @@ let b = {
   value : 0
 }
 
+let op = null;
+
 let current_value = a;
 
 let period = false;
@@ -29,6 +31,18 @@ for (let b in buttons) {
 
   calculator_body.appendChild(div);
 }
+
+window.addEventListener("keydown", (e) => {
+  // console.log(e.key);
+  if(e.key == "Enter") {
+    eval();
+    return;
+  }
+
+  for(let button in buttons) {
+    if(e.key == buttons[button]["string"]) buttons[button].f();
+  }
+});
 
 update_display();
 
@@ -173,13 +187,7 @@ function gen_buttons() {
     equal : {
       area: 'equal',
       string: '=',
-      f: () => {
-        a.value = op(a.value, b.value);
-        b.value = 0;
-        current_value = a;
-        update_display();
-        op = null;
-      }
+      f: eval
     }
   }
 }
@@ -191,4 +199,13 @@ function update_display() {
 
 function clear_display() {
   numeric.innerHTML = "";
+}
+
+function eval() {
+  if (op == null) return;
+  a.value = op(a.value, b.value);
+  b.value = 0;
+  current_value = a;
+  update_display();
+  op = null;
 }
